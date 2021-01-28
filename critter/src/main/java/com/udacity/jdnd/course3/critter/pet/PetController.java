@@ -23,9 +23,9 @@ public class PetController {
         this.petService=petService;
     }
 
-    @PostMapping("/{petId}")
-    public PetDTO savePet(@RequestBody PetDTO petDTO) throws ParseException {
-        Pets pets=covertPetstoPetsDTO(petDTO);
+    @PostMapping
+    public PetDTO savePet(@RequestBody PetDTO petDTO){
+        Pets pets=covertPetsToPetsDTO(petDTO);
         petService.savePet(pets);
         return petDTO;
     }
@@ -46,7 +46,7 @@ public class PetController {
     }
 
 
-    private Pets covertPetstoPetsDTO(PetDTO petDTO) throws ParseException {
+    private Pets covertPetsToPetsDTO(PetDTO petDTO) {
         Pets pets = modelMapper.map(petDTO,Pets.class);
         return pets;
     }
