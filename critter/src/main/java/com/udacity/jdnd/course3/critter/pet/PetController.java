@@ -31,7 +31,7 @@ public class PetController {
     public PetDTO savePet(@RequestBody PetDTO petDTO){
 
         Pets pets =convertsPetsDTOToPets(petDTO);
-     //   LOGGER.info(pets.getId()+" "+pets.getName()+" "+pets.getNotes()+" "+pets.getBirthDate());
+        LOGGER.info(pets.getId()+" "+pets.getName()+" "+pets.getNotes()+" "+pets.getBirthDate());
         petService.savePet(pets);
         return petDTO;
     }
@@ -56,12 +56,12 @@ public class PetController {
 
     private Pets convertsPetsDTOToPets(PetDTO petDTO) {
 
-        Pets pets = new Pets();
+        Pets pets = new Pets(petDTO.getType(), petDTO.getName(),petDTO.getBirthDate(),petDTO.getNotes());
         LOGGER.info(pets.getId()+" "+petDTO.getName()+" "+petDTO.getNotes()+" "+petDTO.getType());
-        pets.setName(petDTO.getName());
+        /*pets.setName(petDTO.getName());
         pets.setBirthDate(petDTO.getBirthDate());
         pets.setNotes(petDTO.getNotes());
-        pets.setPetType(petDTO.getType());
+        pets.setPetType(petDTO.getType());*/
         return pets;
     }
 

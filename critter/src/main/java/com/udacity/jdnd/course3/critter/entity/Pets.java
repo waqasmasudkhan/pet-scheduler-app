@@ -1,17 +1,19 @@
 package com.udacity.jdnd.course3.critter.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.udacity.jdnd.course3.critter.pet.PetType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+
 
 @Entity
 public class Pets {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private PetType petType;
     private String name;
     private LocalDate birthDate;
@@ -24,13 +26,13 @@ public class Pets {
 
     }
 
-    public Pets(Long id, PetType petType, String name, LocalDate birthDate, Customer customer, long employeeId, String notes) {
-        this.id = id;
+    public Pets( PetType petType, String name, LocalDate birthDate,  String notes) {
+//        this.id = id;
         this.petType = petType;
         this.name = name;
         this.birthDate = birthDate;
-        this.customer = customer;
-        this.employeeId = employeeId;
+//        this.customer = customer;
+//        this.employeeId = employeeId;
         this.notes = notes;
     }
 
