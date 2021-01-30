@@ -19,20 +19,17 @@ public class Pets {
     private LocalDate birthDate;
     @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
-    private long employeeId;
     private String notes;
 
     public Pets(){
 
     }
 
-    public Pets( PetType petType, String name, LocalDate birthDate,  String notes) {
-//        this.id = id;
+    public Pets( PetType petType, String name, LocalDate birthDate, Customer owner, String notes) {
         this.petType = petType;
         this.name = name;
         this.birthDate = birthDate;
-//        this.customer = customer;
-//        this.employeeId = employeeId;
+        this.customer = owner;
         this.notes = notes;
     }
 
@@ -76,19 +73,23 @@ public class Pets {
         this.customer = customer;
     }
 
-    public long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-    }
-
     public String getNotes() {
         return notes;
     }
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return "Pets{" +
+                "id=" + id +
+                ", petType=" + petType +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", customer=" + customer +
+                ", notes='" + notes + '\'' +
+                '}';
     }
 }
