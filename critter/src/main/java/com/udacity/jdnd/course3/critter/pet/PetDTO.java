@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**

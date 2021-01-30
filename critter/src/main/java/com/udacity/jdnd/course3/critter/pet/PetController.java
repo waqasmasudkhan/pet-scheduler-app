@@ -2,6 +2,8 @@ package com.udacity.jdnd.course3.critter.pet;
 
 import com.udacity.jdnd.course3.critter.entity.Pets;
 import com.udacity.jdnd.course3.critter.service.PetService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,8 @@ public class PetController {
 
     PetService petService;
     private ModelMapper modelMapper;
+    private static final Logger LOGGER = LogManager.getLogger(PetController.class);
+
 
 
     public PetController(PetService petService){
@@ -25,13 +29,17 @@ public class PetController {
 
     @PostMapping
     public PetDTO savePet(@RequestBody PetDTO petDTO){
-        Pets pets=covertPetsToPetsDTO(petDTO);
+
+        Pets pets =convertsPetsDTOToPets(petDTO);
+     //   LOGGER.info(pets.getId()+" "+pets.getName()+" "+pets.getNotes()+" "+pets.getBirthDate());
         petService.savePet(pets);
         return petDTO;
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
+        Pets pet=petService.getPetById(petId);
+
         throw new UnsupportedOperationException();
     }
 
@@ -46,9 +54,27 @@ public class PetController {
     }
 
 
-    private Pets covertPetsToPetsDTO(PetDTO petDTO) {
-        Pets pets = modelMapper.map(petDTO,Pets.class);
+    private Pets convertsPetsDTOToPets(PetDTO petDTO) {
+
+        Pets pets = new Pets();
+        LOGGER.info(pets.getId()+" "+petDTO.getName()+" "+petDTO.getNotes()+" "+petDTO.getType());
+        pets.setName(petDTO.getName());
+        pets.setBirthDate(petDTO.getBirthDate());
+        pets.setNotes(petDTO.getNotes());
+        pets.setPetType(petDTO.getType());
         return pets;
+    }
+
+    private PetDTO covertPetsToPetsDTO(Pets pets){
+        LOGGER.info(pets.getId()+" "+pets.getNotes());
+        PetDTO petDTO = new PetDTO();
+        petDTO.setType(pets.getPetType());
+        petDTO.setName(pets.getName());
+        petDTO.setBirthDate(pets.getBirthDate());
+        petDTO.setNotes(pets.getNotes());
+        petDTO.setOwnerId((pets.getCustomer()).getId());
+
+        return petDTO;
     }
 
 
