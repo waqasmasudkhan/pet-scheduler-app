@@ -14,19 +14,19 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Pets> petIds;
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    private List<Pets> pets;
 
     public Customer(){
 
     }
 
-    public Customer(Long id, String name, String phoneNumber, String notes, List<Pets> petIds) {
+    public Customer(Long id, String name, String phoneNumber, String notes, List<Pets> pets) {
         Id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.notes = notes;
-        this.petIds = petIds;
+        this.pets = pets;
     }
 
     public Long getId() {
@@ -61,11 +61,11 @@ public class Customer {
         this.notes = notes;
     }
 
-    public List<Pets> getPetIds() {
-        return petIds;
+    public List<Pets> getPets() {
+        return pets;
     }
 
-    public void setPetIds(List<Pets> petIds) {
-        this.petIds = petIds;
+    public void setPets(List<Pets> pets) {
+        this.pets = pets;
     }
 }

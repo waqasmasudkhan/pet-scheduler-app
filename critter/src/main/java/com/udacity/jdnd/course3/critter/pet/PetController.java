@@ -34,15 +34,20 @@ public class PetController {
 
         Pets pets =convertsPetsDTOToPets(petDTO);
         LOGGER.info(pets.getId()+" "+pets.getName()+" "+pets.getNotes()+" "+pets.getBirthDate());
-        petService.savePet(pets,petDTO.getOwnerId());
-        return petDTO;
+        Pets savedPet=petService.savePet(pets,petDTO.getOwnerId());
+        PetDTO responsePetDTO= covertsPetsToPetsDTO(pets);
+        responsePetDTO.setOwnerId(pets.getCustomer().getId());
+        LOGGER.info(savedPet.getId()+" "+savedPet.getName()+" "+savedPet.getNotes()+" "+savedPet.getBirthDate());
+        responsePetDTO.setId(savedPet.getId());
+        return responsePetDTO;
     }
 
     @GetMapping("/{petId}")
     public PetDTO getPet(@PathVariable long petId) {
         Pets pet=petService.getPetById(petId);
-
-        throw new UnsupportedOperationException();
+        PetDTO responsePetDTO= covertsPetsToPetsDTO(pet);
+        responsePetDTO.setOwnerId(pet.getCustomer().getId());
+        return responsePetDTO;
     }
 
     @GetMapping
@@ -57,23 +62,16 @@ public class PetController {
 
 
     private Pets convertsPetsDTOToPets(PetDTO petDTO) {
-//        Customer customer = new Customer();
         Pets pets= new Pets();
-//        Pets pets = new Pets(petDTO.getType(), petDTO.getName(),petDTO.getBirthDate(),petDTO.getNotes());
         BeanUtils.copyProperties(petDTO,pets);
         LOGGER.info(pets.toString());
         return pets;
     }
 
-    private PetDTO covertPetsToPetsDTO(Pets pets){
+    private PetDTO covertsPetsToPetsDTO(Pets pets){
         LOGGER.info(pets.getId()+" "+pets.getNotes());
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pets,petDTO);
-        /*petDTO.setType(pets.getPetType());
-        petDTO.setName(pets.getName());
-        petDTO.setBirthDate(pets.getBirthDate());
-        petDTO.setNotes(pets.getNotes());
-        petDTO.setOwnerId((pets.getCustomer()).getId());*/
         LOGGER.info(petDTO.toString());
         return petDTO;
     }

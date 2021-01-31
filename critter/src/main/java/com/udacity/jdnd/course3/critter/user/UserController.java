@@ -1,7 +1,10 @@
 package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.entity.Customer;
+import com.udacity.jdnd.course3.critter.pet.PetController;
 import com.udacity.jdnd.course3.critter.service.CustomerService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +21,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
     CustomerService customerService;
 
     public UserController(CustomerService customerService){
@@ -27,7 +30,7 @@ public class UserController {
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        Customer savedCustomer=customerService.addCustomer(convertsCustomerDTOToCustomer(customerDTO));
+        Customer savedCustomer=customerService.addCustomer(convertsCustomerDTOToCustomer(customerDTO)   );
         return convertsCustomerToCustomerDTO(savedCustomer);
     }
 

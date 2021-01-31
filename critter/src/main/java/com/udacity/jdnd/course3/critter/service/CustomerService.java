@@ -17,6 +17,7 @@ public class CustomerService {
 
 
     public Customer addCustomer(Customer customer){
+
         Customer savedCustomer=customerRepository.save(customer);
         return savedCustomer;
     }

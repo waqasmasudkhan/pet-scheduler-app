@@ -14,7 +14,7 @@ public class Pets {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private PetType petType;
+    private PetType type;
     private String name;
     private LocalDate birthDate;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -25,8 +25,8 @@ public class Pets {
 
     }
 
-    public Pets( PetType petType, String name, LocalDate birthDate, Customer owner, String notes) {
-        this.petType = petType;
+    public Pets( PetType type, String name, LocalDate birthDate, Customer owner, String notes) {
+        this.type = type;
         this.name = name;
         this.birthDate = birthDate;
         this.customer = owner;
@@ -41,12 +41,12 @@ public class Pets {
         this.id = id;
     }
 
-    public PetType getPetType() {
-        return petType;
+    public PetType getType() {
+        return type;
     }
 
-    public void setPetType(PetType petType) {
-        this.petType = petType;
+    public void setType(PetType type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -85,7 +85,7 @@ public class Pets {
     public String toString() {
         return "Pets{" +
                 "id=" + id +
-                ", petType=" + petType +
+                ", petType=" + type +
                 ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", customer=" + customer +

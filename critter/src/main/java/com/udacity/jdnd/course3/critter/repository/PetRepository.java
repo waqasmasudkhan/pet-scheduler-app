@@ -9,7 +9,7 @@ public interface PetRepository extends JpaRepository<Pets, Long> {
 
     String findByName(String name);
     String findByBirthDate(String birthDate);
-    String findByPetType(String type);
+    String findByType(String type);
 
 
 }
