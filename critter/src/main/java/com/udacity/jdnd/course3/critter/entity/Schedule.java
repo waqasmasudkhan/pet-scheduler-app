@@ -21,7 +21,6 @@ public class Schedule {
     private List<Pets> petIds;
     private LocalDate date;
 
-
     @Enumerated(EnumType.STRING)
     private EmployeeSkill activities;
 
@@ -29,7 +28,51 @@ public class Schedule {
 
     }
 
+    public Schedule(long id, List<Employee> employeeIds, List<Pets> petIds, LocalDate date, EmployeeSkill activities) {
+        this.id = id;
+        this.employeeIds = employeeIds;
+        this.petIds = petIds;
+        this.date = date;
+        this.activities = activities;
+    }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
+    public List<Employee> getEmployeeIds() {
+        return employeeIds;
+    }
+
+    public void setEmployeeIds(List<Employee> employeeIds) {
+        this.employeeIds = employeeIds;
+    }
+
+    public List<Pets> getPetIds() {
+        return petIds;
+    }
+
+    public void setPetIds(List<Pets> petIds) {
+        this.petIds = petIds;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public EmployeeSkill getActivities() {
+        return activities;
+    }
+
+    public void setActivities(EmployeeSkill activities) {
+        this.activities = activities;
+    }
 }

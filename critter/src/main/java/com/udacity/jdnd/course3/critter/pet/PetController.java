@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,12 +53,14 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        List<Pets> petList = petService.getAllPets();
+        return convertsListPetToListPetDTO(petList);
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+        List<Pets> petList = petService.getPetsByOwner(ownerId);
+        return convertsListPetToListPetDTO(petList);
     }
 
 
@@ -74,6 +77,16 @@ public class PetController {
         BeanUtils.copyProperties(pets,petDTO);
         LOGGER.info(petDTO.toString());
         return petDTO;
+    }
+
+    private List<PetDTO> convertsListPetToListPetDTO(List<Pets> petsList){
+        List<PetDTO> petDTOList = new ArrayList<PetDTO>();
+        for(Pets pet: petsList){
+            PetDTO petDTO = covertsPetsToPetsDTO(pet);
+            petDTO.setOwnerId(pet.getCustomer().getId());
+            petDTOList.add(petDTO);
+        }
+        return petDTOList;
     }
 
 

@@ -21,8 +21,8 @@ import java.util.Optional;
 public class PetService {
     private static final Logger LOGGER = LogManager.getLogger(PetService.class);
 
-    private PetRepository petRepository;
-    private CustomerRepository customerRepository;
+    private final PetRepository petRepository;
+    private final CustomerRepository customerRepository;
 
 
     public PetService(PetRepository petRepository, CustomerRepository customerRepository){
@@ -53,6 +53,23 @@ public class PetService {
         }else{
             throw new PetNotFoundException();
         }
+    }
+
+    public List<Pets> getAllPets(){
+        List<Pets> petsList = petRepository.findAll();
+        return petsList;
+    }
+
+    public List<Pets> getPetsByOwner(long Id){
+        Optional<Customer> optionalCustomer = customerRepository.findById(Id);
+        Customer customer = new Customer();
+        if(optionalCustomer.isPresent()){
+            customer= optionalCustomer.get();
+        }else{
+            throw new OwnerNotFoundException();
+        }
+        List<Pets> petsList=petRepository.findPetsByCustomerEquals(customer);
+        return petsList;
     }
 
     private Boolean isPetInDB(Pets pet){

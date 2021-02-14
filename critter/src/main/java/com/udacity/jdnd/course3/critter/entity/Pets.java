@@ -81,15 +81,4 @@ public class Pets {
         this.notes = notes;
     }
 
-    @Override
-    public String toString() {
-        return "Pets{" +
-                "id=" + id +
-                ", petType=" + type +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", customer=" + customer +
-                ", notes='" + notes + '\'' +
-                '}';
-    }
 }
