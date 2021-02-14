@@ -40,7 +40,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getScheduleByPet(long petId){
-        return scheduleRepository.getSchedulesByPetId(petId);
+        return scheduleRepository.getSchedulesByPetIds(petId);
     }
 
     public List<Schedule> getScheduleByEmployeeId(long employeeId){
