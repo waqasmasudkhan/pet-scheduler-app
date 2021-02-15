@@ -73,7 +73,7 @@ public class PetService {
     }
 
     private Boolean isPetInDB(Pets pet){
-        if(pet.getName().equals(petRepository.findByName(pet.getName()))&&pet.getBirthDate().equals(petRepository.findByBirthDate(pet.getBirthDate().toString()))&&pet.getType().equals(petRepository.findByType(pet.getType().toString()))){
+        if(pet.getName().equals(petRepository.findByName(pet.getName()))&&pet.getBirthDate().equals(petRepository.findByBirthDate(pet.getBirthDate()))&&pet.getType().equals(petRepository.findByType(pet.getType().toString()))){
             return true;
         }else{
             return false;
