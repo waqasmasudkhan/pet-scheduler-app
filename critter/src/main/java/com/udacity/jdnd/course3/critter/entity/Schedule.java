@@ -1,10 +1,12 @@
 package com.udacity.jdnd.course3.critter.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,13 +24,15 @@ public class Schedule {
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
-    private EmployeeSkill activities;
+    @JsonDeserialize(as = EmployeeSkill.class)
+    @ElementCollection
+    private Set<EmployeeSkill> activities= new HashSet<>();
 
     public Schedule(){
 
     }
 
-    public Schedule(long id, List<Employee> employeeIds, List<Pets> petIds, LocalDate date, EmployeeSkill activities) {
+    public Schedule(long id, List<Employee> employeeIds, List<Pets> petIds, LocalDate date, Set<EmployeeSkill> activities) {
         this.id = id;
         this.employeeIds = employeeIds;
         this.petIds = petIds;
@@ -68,11 +72,11 @@ public class Schedule {
         this.date = date;
     }
 
-    public EmployeeSkill getActivities() {
+    public Set<EmployeeSkill> getActivities() {
         return activities;
     }
 
-    public void setActivities(EmployeeSkill activities) {
+    public void setActivities(Set<EmployeeSkill> activities) {
         this.activities = activities;
     }
 }

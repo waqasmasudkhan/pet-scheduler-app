@@ -38,9 +38,7 @@ public class PetService {
         }else{
             throw new OwnerNotFoundException();
         }
-        if(isPetInDB(pet)){
-            throw new PetExistsException();
-        }
+
         pet.setCustomer(customer);
         LOGGER.info(pet.getId()+" "+pet.getName()+" "+pet.getNotes()+" "+pet.getBirthDate()+" "+pet.getType());
         return petRepository.save(pet);
@@ -72,12 +70,12 @@ public class PetService {
         return petsList;
     }
 
-    private Boolean isPetInDB(Pets pet){
-        if(pet.getName().equals(petRepository.findByName(pet.getName()))&&pet.getBirthDate().equals(petRepository.findByBirthDate(pet.getBirthDate()))&&pet.getType().equals(petRepository.findByType(pet.getType().toString()))){
-            return true;
-        }else{
-            return false;
-        }
-    }
+//    private Boolean isPetInDB(Pets pet){
+//        if(pet.getName().equals(petRepository.findByName(pet.getName()))&&pet.getBirthDate().toString().equals(petRepository.findByBirthDate(pet.getBirthDate()))&&pet.getType().toString().equals(petRepository.findByType(pet.getType().toString()))){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 
 }

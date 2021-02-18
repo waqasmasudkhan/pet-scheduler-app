@@ -1,3 +1,0 @@
--- INSERT INTO EMPLOYEE (id, days_available, name, skill) VALUES ('1','Friday','Jason','WALKING');
--- INSERT INTO CUSTOMER (id, name, notes, phone_number) VALUES ('1','Waqas Khan','please do a 4 km walk','64754');
--- INSERT INTO PETS (id,birth_date,employee_id,name, notes,pet_type,customer_id) VALUES ('1','');

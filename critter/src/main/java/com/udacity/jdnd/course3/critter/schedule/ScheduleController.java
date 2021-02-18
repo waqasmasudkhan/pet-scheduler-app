@@ -4,6 +4,9 @@ import com.udacity.jdnd.course3.critter.entity.Pets;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
+import com.udacity.jdnd.course3.critter.user.UserController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/schedule")
 public class ScheduleController {
-
+    private static final Logger LOGGER = LogManager.getLogger(ScheduleController.class);
     ScheduleService scheduleService;
     PetService petService;
 
@@ -27,8 +30,11 @@ public class ScheduleController {
 
     @PostMapping
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+        LOGGER.info(scheduleDTO.getId()+" "+scheduleDTO.getPetIds()+" "+scheduleDTO.getEmployeeIds()+" "+scheduleDTO.getActivities()+" "+scheduleDTO.getDate());
         Schedule schedule = convertScheduleDTOToSchedule(scheduleDTO);
-        ScheduleDTO savedScheduleDTO = convertScheduleToScheduleDTO(scheduleService.saveSchedule(schedule));
+        LOGGER.info(schedule.getId()+" "+schedule.getPetIds()+" "+schedule.getEmployeeIds()+" "+schedule.getActivities()+" "+schedule.getDate());
+        Schedule savedSchedule = scheduleService.saveSchedule(schedule);
+        ScheduleDTO savedScheduleDTO = convertScheduleToScheduleDTO(savedSchedule);
         return savedScheduleDTO;
     }
 
