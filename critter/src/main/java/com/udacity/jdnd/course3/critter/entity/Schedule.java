@@ -18,7 +18,7 @@ public class Schedule {
     private long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Employee> employeeIds;
+    private List<Employee> employees;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Pets> petIds;
     private LocalDate date;
@@ -32,9 +32,9 @@ public class Schedule {
 
     }
 
-    public Schedule(long id, List<Employee> employeeIds, List<Pets> petIds, LocalDate date, Set<EmployeeSkill> activities) {
+    public Schedule(long id, List<Employee> employees, List<Pets> petIds, LocalDate date, Set<EmployeeSkill> activities) {
         this.id = id;
-        this.employeeIds = employeeIds;
+        this.employees = employees;
         this.petIds = petIds;
         this.date = date;
         this.activities = activities;
@@ -48,12 +48,12 @@ public class Schedule {
         this.id = id;
     }
 
-    public List<Employee> getEmployeeIds() {
-        return employeeIds;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeeIds(List<Employee> employeeIds) {
-        this.employeeIds = employeeIds;
+    public void setEmployees(List<Employee> employeeIds) {
+        this.employees = employees;
     }
 
     public List<Pets> getPetIds() {

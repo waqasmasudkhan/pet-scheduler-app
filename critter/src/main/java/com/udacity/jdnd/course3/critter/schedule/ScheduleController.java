@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
+import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pets;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
 import com.udacity.jdnd.course3.critter.service.PetService;
@@ -32,7 +33,7 @@ public class ScheduleController {
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
         LOGGER.info(scheduleDTO.getId()+" "+scheduleDTO.getPetIds()+" "+scheduleDTO.getEmployeeIds()+" "+scheduleDTO.getActivities()+" "+scheduleDTO.getDate());
         Schedule schedule = convertScheduleDTOToSchedule(scheduleDTO);
-        LOGGER.info(schedule.getId()+" "+schedule.getPetIds()+" "+schedule.getEmployeeIds()+" "+schedule.getActivities()+" "+schedule.getDate());
+        LOGGER.info(schedule.getId()+" "+schedule.getPetIds()+" "+schedule.getEmployees()+" "+schedule.getActivities()+" "+schedule.getDate());
         Schedule savedSchedule = scheduleService.saveSchedule(schedule);
         ScheduleDTO savedScheduleDTO = convertScheduleToScheduleDTO(savedSchedule);
         return savedScheduleDTO;
@@ -67,6 +68,11 @@ public class ScheduleController {
     private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO,schedule);
+        List<Long> employeeIds= scheduleDTO.getEmployeeIds();
+        List<Employee> employeeList = scheduleService.getEmployees(employeeIds);
+        List<Pets> petsList = scheduleService.getPets(scheduleDTO.getPetIds());
+        schedule.setPetIds(petsList);
+        schedule.setEmployees(employeeList);
         return schedule;
     }
 
