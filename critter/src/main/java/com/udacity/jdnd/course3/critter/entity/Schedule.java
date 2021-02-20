@@ -20,7 +20,7 @@ public class Schedule {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Employee> employees;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Pets> petIds;
+    private List<Pets> pets;
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
@@ -32,10 +32,10 @@ public class Schedule {
 
     }
 
-    public Schedule(long id, List<Employee> employees, List<Pets> petIds, LocalDate date, Set<EmployeeSkill> activities) {
+    public Schedule(long id, List<Employee> employees, List<Pets> pets, LocalDate date, Set<EmployeeSkill> activities) {
         this.id = id;
         this.employees = employees;
-        this.petIds = petIds;
+        this.pets = pets;
         this.date = date;
         this.activities = activities;
     }
@@ -56,12 +56,12 @@ public class Schedule {
         this.employees = employees;
     }
 
-    public List<Pets> getPetIds() {
-        return petIds;
+    public List<Pets> getPets() {
+        return pets;
     }
 
-    public void setPetIds(List<Pets> petIds) {
-        this.petIds = petIds;
+    public void setPets(List<Pets> petIds) {
+        this.pets = petIds;
     }
 
     public LocalDate getDate() {

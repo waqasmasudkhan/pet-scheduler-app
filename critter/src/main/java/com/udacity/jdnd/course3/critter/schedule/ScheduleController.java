@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter.schedule;
 import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.entity.Pets;
 import com.udacity.jdnd.course3.critter.entity.Schedule;
+import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.service.ScheduleService;
 import com.udacity.jdnd.course3.critter.user.UserController;
@@ -22,10 +23,13 @@ import java.util.List;
 public class ScheduleController {
     private static final Logger LOGGER = LogManager.getLogger(ScheduleController.class);
     ScheduleService scheduleService;
+    EmployeeService employeeService;
     PetService petService;
 
-    public ScheduleController(ScheduleService scheduleService, PetService petService){
+
+    public ScheduleController(ScheduleService scheduleService, EmployeeService employeeService, PetService petService){
         this.scheduleService=scheduleService;
+        this.employeeService=employeeService;
         this.petService=petService;
     }
 
@@ -33,7 +37,7 @@ public class ScheduleController {
     public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
         LOGGER.info(scheduleDTO.getId()+" "+scheduleDTO.getPetIds()+" "+scheduleDTO.getEmployeeIds()+" "+scheduleDTO.getActivities()+" "+scheduleDTO.getDate());
         Schedule schedule = convertScheduleDTOToSchedule(scheduleDTO);
-        LOGGER.info(schedule.getId()+" "+schedule.getPetIds()+" "+schedule.getEmployees()+" "+schedule.getActivities()+" "+schedule.getDate());
+        LOGGER.info(schedule.getId()+" "+schedule.getPets()+" "+schedule.getEmployees()+" "+schedule.getActivities()+" "+schedule.getDate());
         Schedule savedSchedule = scheduleService.saveSchedule(schedule);
         ScheduleDTO savedScheduleDTO = convertScheduleToScheduleDTO(savedSchedule);
         return savedScheduleDTO;
@@ -49,7 +53,7 @@ public class ScheduleController {
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
         Pets pet = petService.getPetById(petId);
-        List<Schedule> scheduleList = scheduleService.getScheduleByPet(petId);
+        List<Schedule> scheduleList = scheduleService.getScheduleByPet(pet);
         List<ScheduleDTO> scheduleDTOList = convertScheduleToScheduleDTO(scheduleList);
         return scheduleDTOList;
     }
@@ -70,8 +74,8 @@ public class ScheduleController {
         BeanUtils.copyProperties(scheduleDTO,schedule);
         List<Long> employeeIds= scheduleDTO.getEmployeeIds();
         List<Employee> employeeList = scheduleService.getEmployees(employeeIds);
-        List<Pets> petsList = scheduleService.getPets(scheduleDTO.getPetIds());
-        schedule.setPetIds(petsList);
+        List<Pets> petsList = scheduleService.getPetsById(scheduleDTO.getPetIds());
+        schedule.setPets(petsList);
         schedule.setEmployees(employeeList);
         return schedule;
     }
@@ -79,6 +83,11 @@ public class ScheduleController {
     private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
+        LOGGER.info(scheduleDTO.getPetIds());
+        List<Long> petIds = scheduleService.getPetIds(schedule.getPets());
+        List<Long> employeeIds = employeeService.getEmployeeIds(schedule.getEmployees());
+        scheduleDTO.setPetIds(petIds);
+        scheduleDTO.setEmployeeIds(employeeIds);
         return scheduleDTO;
     }
 

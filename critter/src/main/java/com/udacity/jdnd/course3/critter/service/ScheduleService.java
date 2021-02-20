@@ -42,8 +42,8 @@ public class ScheduleService {
         return scheduleRepository.findAll();
     }
 
-    public List<Schedule> getScheduleByPet(long petId){
-        return scheduleRepository.getSchedulesByPetIds(petId);
+    public List<Schedule> getScheduleByPet(Pets pet){
+        return scheduleRepository.getSchedulesByPets(pet);
     }
 
     public List<Schedule> getScheduleByEmployeeId(long employeeId){
@@ -61,7 +61,7 @@ public class ScheduleService {
         }
         List<Pets> petsList = petRepository.findPetsByCustomerEquals(customer);
         petsList.forEach(p->{
-            scheduleList.addAll(scheduleRepository.getSchedulesByPetIds(p));
+            scheduleList.addAll(scheduleRepository.getSchedulesByPets(p));
         });
         return scheduleList;
     }
@@ -80,7 +80,7 @@ public class ScheduleService {
         return employeeList;
     }
 
-    public List<Pets> getPets(List<Long> petsIds){
+    public List<Pets> getPetsById(List<Long> petsIds){
         List<Pets> petsList = new ArrayList<Pets>();
         petsIds.forEach(id->{
             Optional<Pets> optionalPets=petRepository.findById(id);
@@ -92,6 +92,14 @@ public class ScheduleService {
             }
         });
         return petsList;
+    }
+
+    public List<Long> getPetIds(List<Pets> petsList){
+        List<Long> petIdList = new ArrayList<Long>();
+        petsList.forEach(p->{
+            petIdList.add(p.getId());
+        });
+        return petIdList;
     }
 
 }
