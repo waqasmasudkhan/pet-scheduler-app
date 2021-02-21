@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -27,10 +28,18 @@ public class EmployeeService {
     }
 
 
-    public List<Employee> getEmployeesServices(EmployeeRequestDTO employeeDTO){
+    /*public List<Employee> getEmployeesServices(EmployeeRequestDTO employeeDTO){
         List<Employee> availableEmployees= employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(employeeDTO.getDate().getDayOfWeek(),employeeDTO.getSkills());
         return availableEmployees;
+    }*/
+
+    public List<Employee> getEmployeesServices(EmployeeRequestDTO employeeDTO){
+        return employeeRepository.findAllByDaysAvailable(employeeDTO.getDate().getDayOfWeek())
+                .stream()
+                .filter(employee -> employee.getSkills().containsAll(employeeDTO.getSkills()))
+                .collect(Collectors.toList());
     }
+
 
     public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable, long employeeId){
         Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);

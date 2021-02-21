@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Schedules.
@@ -70,7 +71,7 @@ public class ScheduleController {
         return convertScheduleToScheduleDTO(scheduleList);
     }
 
-    private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
+/*    private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO,schedule);
         List<Long> employeeIds= scheduleDTO.getEmployeeIds();
@@ -95,7 +96,27 @@ public class ScheduleController {
         scheduleDTO.setPetIds(petIds);
         scheduleDTO.setEmployeeIds(employeeIds);
         return scheduleDTO;
+    }*/
+
+    private Schedule convertScheduleDTOToSchedule(ScheduleDTO scheduleDTO){
+        Schedule schedule = new Schedule();
+        BeanUtils.copyProperties(scheduleDTO,schedule);
+        List<Employee> employeeList = scheduleDTO.getEmployeeIds().stream().map(employeeService::getEmployee).collect(Collectors.toList());
+        List<Pets> petsList = scheduleDTO.getPetIds().stream().map(petService::getPetById).collect(Collectors.toList());
+        schedule.setPets(petsList);
+        schedule.setEmployees(employeeList);
+        return schedule;
     }
+    private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        BeanUtils.copyProperties(schedule, scheduleDTO);
+        List<Long> petIds = schedule.getPets().stream().map(Pets::getId).collect(Collectors.toList());
+        List<Long> employeeIds = schedule.getEmployees().stream().map(Employee::getId).collect(Collectors.toList());
+        scheduleDTO.setPetIds(petIds);
+        scheduleDTO.setEmployeeIds(employeeIds);
+        return scheduleDTO;
+    }
+
 
     private List<ScheduleDTO> convertScheduleToScheduleDTO(List<Schedule> scheduleList){
         List<ScheduleDTO> scheduleDTOList = new ArrayList<ScheduleDTO>();

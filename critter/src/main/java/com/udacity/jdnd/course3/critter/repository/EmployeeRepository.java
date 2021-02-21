@@ -13,9 +13,8 @@ import java.util.Set;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    public List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek day, Set<EmployeeSkill> skill);
-
-
+//    public List<Employee> findEmployeesByDaysAvailableAndSkillsIn(DayOfWeek day, Set<EmployeeSkill> skill);
+    public List<Employee> findAllByDaysAvailable(DayOfWeek day);
 
 
 }

@@ -17,10 +17,29 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+/*    @OneToMany(cascade = CascadeType.ALL)
     private List<Employee> employees;
     @OneToMany(cascade = CascadeType.ALL)
+    private List<Pets> pets;*/
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "schedule_employees",
+            joinColumns = {@JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = {@JoinColumn(name = "employee_id")}
+    )
+    private List<Employee> employees;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "schedule_pets",
+            joinColumns = {@JoinColumn(name = "schedule_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pet_id")}
+    )
     private List<Pets> pets;
+
+
+
+
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
