@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    public List<Schedule> getSchedulesByPets(Pets pets);
+    List<Schedule> getSchedulesByPets(Pets pets);
 
-    public List<Schedule> getSchedulesByEmployees(Employee employee);
+    List<Schedule> getSchedulesByEmployees(Employee employee);
 
 }

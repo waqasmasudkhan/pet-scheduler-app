@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EmployeeService {
     private static final Logger LOGGER = LogManager.getLogger(EmployeeService.class);
     private final EmployeeRepository employeeRepository;
@@ -27,11 +29,6 @@ public class EmployeeService {
         this.employeeRepository=employeeRepository;
     }
 
-
-    /*public List<Employee> getEmployeesServices(EmployeeRequestDTO employeeDTO){
-        List<Employee> availableEmployees= employeeRepository.findEmployeesByDaysAvailableAndSkillsIn(employeeDTO.getDate().getDayOfWeek(),employeeDTO.getSkills());
-        return availableEmployees;
-    }*/
 
     public List<Employee> getEmployeesServices(EmployeeRequestDTO employeeDTO){
         return employeeRepository.findAllByDaysAvailable(employeeDTO.getDate().getDayOfWeek())

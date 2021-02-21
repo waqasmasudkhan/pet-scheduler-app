@@ -12,11 +12,6 @@ import java.util.List;
 @Repository
 public interface PetRepository extends JpaRepository<Pets, Long> {
 
-    String findByName(String name);
-    String findByBirthDate(LocalDate birthDate);
-    String findByType(String type);
     List<Pets> findPetsByCustomerEquals(Customer customer);
-    long findCustomerById(Long petId);
-
 
 }

@@ -14,11 +14,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PetService {
     private static final Logger LOGGER = LogManager.getLogger(PetService.class);
 
@@ -71,12 +73,6 @@ public class PetService {
         return petsList;
     }
 
-//    private Boolean isPetInDB(Pets pet){
-//        if(pet.getName().equals(petRepository.findByName(pet.getName()))&&pet.getBirthDate().toString().equals(petRepository.findByBirthDate(pet.getBirthDate()))&&pet.getType().toString().equals(petRepository.findByType(pet.getType().toString()))){
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
+
 
 }
