@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,18 +31,18 @@ public class PetService {
         this.customerRepository=customerRepository;
     }
 
-    public Pets savePet(Pets pet,long ownerId){
-        Customer customer = new Customer();
-        Optional<Customer> optionalCustomer = customerRepository.findById(ownerId);
-        if(optionalCustomer.isPresent()){
-            customer=optionalCustomer.get();
-        }else{
-            throw new OwnerNotFoundException();
-        }
+    public Pets savePet(Pets pet){
+        Pets savedPet = petRepository.save(pet);
+        Customer customer=savedPet.getCustomer();
+        List<Pets> customerPets = customer.getPets();
 
-        pet.setCustomer(customer);
-        LOGGER.info(pet.getId()+" "+pet.getName()+" "+pet.getNotes()+" "+pet.getBirthDate()+" "+pet.getType());
-        return petRepository.save(pet);
+        if(customerPets==null){
+            customerPets = new ArrayList<>();
+        }
+        customerPets.add(savedPet);
+        customer.setPets(customerPets);
+        customerRepository.save(customer);
+        return savedPet;
     }
 
     public Pets getPetById(long Id){

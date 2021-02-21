@@ -73,7 +73,13 @@ public class ScheduleController {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleDTO,schedule);
         List<Long> employeeIds= scheduleDTO.getEmployeeIds();
+        employeeIds.forEach(id->{
+            LOGGER.info(id);
+        });
         List<Employee> employeeList = scheduleService.getEmployees(employeeIds);
+        employeeList.forEach(e->{
+            LOGGER.info("Employee is "+e.getName()+" "+e.getId());
+        });
         List<Pets> petsList = scheduleService.getPetsById(scheduleDTO.getPetIds());
         schedule.setPets(petsList);
         schedule.setEmployees(employeeList);
@@ -83,7 +89,6 @@ public class ScheduleController {
     private ScheduleDTO convertScheduleToScheduleDTO(Schedule schedule){
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         BeanUtils.copyProperties(schedule, scheduleDTO);
-        LOGGER.info(scheduleDTO.getPetIds());
         List<Long> petIds = scheduleService.getPetIds(schedule.getPets());
         List<Long> employeeIds = employeeService.getEmployeeIds(schedule.getEmployees());
         scheduleDTO.setPetIds(petIds);

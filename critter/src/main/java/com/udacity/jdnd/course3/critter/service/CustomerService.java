@@ -56,6 +56,9 @@ public class CustomerService {
         }
     }
 
+    public Customer getCustomerById(Long customerId){
+        return customerRepository.getOne(customerId);
+    }
 
 
 

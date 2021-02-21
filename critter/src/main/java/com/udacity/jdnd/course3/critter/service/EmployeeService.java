@@ -7,6 +7,8 @@ import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.user.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -17,7 +19,7 @@ import java.util.Set;
 
 @Service
 public class EmployeeService {
-
+    private static final Logger LOGGER = LogManager.getLogger(EmployeeService.class);
     private final EmployeeRepository employeeRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository){
@@ -50,6 +52,7 @@ public class EmployeeService {
     public Employee getEmployee(long employeeId){
         Optional<Employee> optionalEmployee=employeeRepository.findById(employeeId);
         if(optionalEmployee.isPresent()){
+            LOGGER.info(optionalEmployee.get().getName());
             return optionalEmployee.get();
         }else{
             throw new EmployeeNotFound();
@@ -59,6 +62,7 @@ public class EmployeeService {
     public List<Long> getEmployeeIds(List<Employee> employeeList){
         List<Long> employeeIdsList = new ArrayList<Long>();
         employeeList.forEach(e->{
+            LOGGER.info("The employee id is "+e.getId());
             employeeIdsList.add(e.getId());
         });
         return employeeIdsList;

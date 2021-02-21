@@ -52,7 +52,7 @@ public class Schedule {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employeeIds) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 
