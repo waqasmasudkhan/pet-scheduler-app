@@ -53,6 +53,7 @@ public class ScheduleController {
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
         Pets pet = petService.getPetById(petId);
+        LOGGER.info(pet.getId()+" "+pet.getName()+" "+pet.getBirthDate()+" "+pet.getCustomer());
         List<Schedule> scheduleList = scheduleService.getScheduleByPet(pet);
         List<ScheduleDTO> scheduleDTOList = convertScheduleToScheduleDTO(scheduleList);
         return scheduleDTOList;

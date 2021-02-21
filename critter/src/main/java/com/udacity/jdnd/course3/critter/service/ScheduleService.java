@@ -13,6 +13,9 @@ import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.repository.ScheduleRepository;
+import com.udacity.jdnd.course3.critter.schedule.ScheduleController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.Optional;
 
 @Service
 public class ScheduleService {
+    private static final Logger LOGGER = LogManager.getLogger(ScheduleService.class);
     ScheduleRepository scheduleRepository;
     PetRepository petRepository;
     CustomerRepository customerRepository;
@@ -47,21 +51,27 @@ public class ScheduleService {
     }
 
     public List<Schedule> getScheduleByEmployeeId(long employeeId){
-        return scheduleRepository.getSchedulesByEmployees(employeeId);
+        Employee employee = employeeRepository.getOne(employeeId);
+        List<Schedule> scheduleList =  scheduleRepository.getSchedulesByEmployees(employee);
+        scheduleList.forEach(s->{
+            LOGGER.info(s.getId()+" "+s.getDate()+" "+s.getEmployees()+" "+s.getActivities());
+        });
+        return scheduleList;
     }
 
     public List<Schedule> getScheduleByCustomerId(long customerId){
         List<Schedule> scheduleList = new ArrayList<Schedule>();
-        Customer customer;
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
-        if(!optionalCustomer.isPresent()){
+        Customer customer = customerRepository.getOne(customerId);
+        if(customer==null){
             throw new CustomerNotFound();
-        }else{
-            customer= optionalCustomer.get();
         }
         List<Pets> petsList = petRepository.findPetsByCustomerEquals(customer);
         petsList.forEach(p->{
+            LOGGER.info(p.getId()+" "+p.getName()+" "+p.getBirthDate());
             scheduleList.addAll(scheduleRepository.getSchedulesByPets(p));
+        });
+        scheduleList.forEach(schedule -> {
+            LOGGER.info(schedule.getId()+" "+schedule.getDate()+" "+schedule.getActivities()+" "+schedule.getEmployees());
         });
         return scheduleList;
     }
